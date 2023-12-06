@@ -38,17 +38,19 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
+            implementation(compose.materialIconsExtended)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
             implementation(libs.napier)
             implementation(libs.koin)
-            implementation(libs.koin.compose)
 
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.bottomSheetNavigator)
             implementation(libs.voyager.koin)
 
             implementation(libs.firebase.auth)
+            implementation("co.touchlab:stately-common:2.0.6")
+
         }
     }
 }
