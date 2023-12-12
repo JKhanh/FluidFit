@@ -1,0 +1,51 @@
+CREATE TABLE User (
+    UserID INTEGER NOT NULL PRIMARY KEY,
+    Name TEXT NOT NULL,
+    Email TEXT NOT NULL,
+    Password TEXT
+);
+CREATE TABLE Activity (
+    ActivityID INTEGER NOT NULL PRIMARY KEY,
+    ActivityName TEXT NOT NULL,
+    Description TEXT
+);
+CREATE TABLE UserActivityLog (
+    LogID INTEGER NOT NULL PRIMARY KEY,
+    UserID INTEGER NOT NULL,
+    ActivityID INTEGER NOT NULL,
+    Timestamp INTEGER NOT NULL, -- storing as UNIX timestamp
+    Duration INTEGER NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES User(UserID),
+    FOREIGN KEY (ActivityID) REFERENCES Activity(ActivityID)
+);
+CREATE TABLE Score (
+    ScoreID INTEGER NOT NULL PRIMARY KEY,
+    UserID INTEGER NOT NULL,
+    Score INTEGER NOT NULL,
+    Date INTEGER NOT NULL, -- storing as UNIX timestamp
+    FOREIGN KEY (UserID) REFERENCES User(UserID)
+);
+CREATE TABLE Achievement (
+    AchievementID INTEGER NOT NULL PRIMARY KEY,
+    Name TEXT NOT NULL,
+    Description TEXT,
+    ScoreThreshold INTEGER NOT NULL
+);
+
+insertActivity:
+INSERT INTO Activity (ActivityName, Description)
+VALUES (?, ?);
+
+selectAllActivities:
+SELECT * FROM Activity;
+
+selectActivityById:
+SELECT * FROM Activity WHERE ActivityID = ?;
+
+updateActivity:
+UPDATE Activity
+SET ActivityName = ?, Description = ?
+WHERE ActivityID = ?;
+
+deleteActivity:
+DELETE FROM Activity WHERE ActivityID = ?;

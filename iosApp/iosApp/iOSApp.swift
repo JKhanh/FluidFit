@@ -1,14 +1,12 @@
 import SwiftUI
 import ComposeApp
-import FirebaseCore
-import FirebaseAuth
 
 @main
 struct iOSApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     init() {
-        HelperKt.doInitKoin()
-        FirebaseApp.configure()
+        HelperKt.doInitKoiniOS()
     }
 
 	var body: some Scene {

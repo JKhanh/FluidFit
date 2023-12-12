@@ -1,10 +1,11 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.compose.ExperimentalComposeLibrary
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    id("com.google.gms.google-services")
+    id("app.cash.sqldelight") version "2.0.1"
 }
 
 kotlin {
@@ -33,6 +34,7 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.sqldelight.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -50,7 +52,11 @@ kotlin {
 
             implementation(libs.firebase.auth)
             implementation("co.touchlab:stately-common:2.0.6")
-
+            implementation("com.google.android.gms:play-services-auth:20.7.0")
+            implementation(libs.sqldelight.coroutines)
+        }
+        sourceSets.iosMain.dependencies {
+            implementation(libs.sqldelight.native)
         }
     }
 }
@@ -95,3 +101,10 @@ android {
     }
 }
 
+sqldelight {
+    databases {
+        create("Database") {
+            packageName.set("org.jkhanh.fluidfit")
+        }
+    }
+}
