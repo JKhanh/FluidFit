@@ -1,0 +1,25 @@
+CREATE TABLE UserActivityLog (
+    LogID INTEGER NOT NULL PRIMARY KEY,
+    ActivityID TEXT NOT NULL,
+    Timestamp INTEGER NOT NULL, -- storing as UNIX timestamp
+    Duration INTEGER NOT NULL,
+    FOREIGN KEY (ActivityID) REFERENCES Activity(ActivityID)
+);
+
+insertUserActivityLog:
+INSERT INTO UserActivityLog (ActivityID, Timestamp, Duration)
+VALUES (?, ?, ?);
+
+selectAllUserActivityLogs:
+SELECT * FROM UserActivityLog;
+
+selectUserActivityLogById:
+SELECT * FROM UserActivityLog WHERE LogID = ?;
+
+updateUserActivityLog:
+UPDATE UserActivityLog
+SET ActivityID = ?, Timestamp = ?, Duration = ?
+WHERE LogID = ?;
+
+deleteUserActivityLog:
+DELETE FROM UserActivityLog WHERE LogID = ?;

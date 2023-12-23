@@ -29,7 +29,6 @@ class MainViewModel(
 
     fun addActivity(activityName: String, activityDescription: String) {
         screenModelScope.launch {
-            repository.insertActivity(activityName, activityDescription)
         }
     }
 }

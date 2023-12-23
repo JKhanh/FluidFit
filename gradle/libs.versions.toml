@@ -54,6 +54,7 @@ voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", vers
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 
 firebase_auth = { module = "dev.gitlive:firebase-auth", version.ref = "firebase"}
+firebase_firestore = { module = "dev.gitlive:firebase-firestore", version.ref = "firebase"}
 
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }

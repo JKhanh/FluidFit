@@ -1,0 +1,28 @@
+CREATE TABLE Reminders (
+    ReminderID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    ActivityID TEXT NOT NULL,
+    ReminderTime INTEGER NOT NULL, -- Storing as UNIX timestamp
+    RepeatInterval INTEGER, -- In minutes, NULL if no repeat
+    WorkingHoursStart INTEGER, -- Storing as time (e.g., 0900 for 9 AM)
+    WorkingHoursEnd INTEGER, -- Storing as time (e.g., 1700 for 5 PM)
+    WorkingDays TEXT, -- String representing working days (e.g., 'Mon,Tue,Wed,Thu,Fri')
+    FOREIGN KEY (ActivityID) REFERENCES Activity(ActivityID)
+);
+
+insertReminder:
+INSERT INTO Reminders (ActivityID, ReminderTime, RepeatInterval, WorkingHoursStart, WorkingHoursEnd, WorkingDays)
+VALUES (?, ?, ?, ?, ?, ?);
+
+selectAllReminders:
+SELECT * FROM Reminders;
+
+selectReminderById:
+SELECT * FROM Reminders WHERE ReminderID = ?;
+
+updateReminder:
+UPDATE Reminders
+SET ActivityID = ?, ReminderTime = ?, RepeatInterval = ?, WorkingHoursStart = ?, WorkingHoursEnd = ?, WorkingDays = ?
+WHERE ReminderID = ?;
+
+deleteReminder:
+DELETE FROM Reminders WHERE ReminderID = ?;

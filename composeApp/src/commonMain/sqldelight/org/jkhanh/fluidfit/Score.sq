@@ -1,0 +1,23 @@
+CREATE TABLE Score (
+    ScoreID INTEGER NOT NULL PRIMARY KEY,
+    Score INTEGER NOT NULL,
+    Date INTEGER NOT NULL -- storing as UNIX timestamp
+);
+
+insertScore:
+INSERT INTO Score (Score, Date)
+VALUES (?, ?);
+
+selectAllScores:
+SELECT * FROM Score;
+
+selectScoreById:
+SELECT * FROM Score WHERE ScoreID = ?;
+
+updateScore:
+UPDATE Score
+SET Score = ?, Date = ?
+WHERE ScoreID = ?;
+
+deleteScore:
+DELETE FROM Score WHERE ScoreID = ?;

@@ -1,0 +1,23 @@
+CREATE TABLE Activity (
+    ActivityID TEXT NOT NULL PRIMARY KEY,
+    ActivityName TEXT NOT NULL,
+    Description TEXT
+);
+
+insertActivity:
+INSERT INTO Activity (ActivityID, ActivityName, Description)
+VALUES (?, ?, ?);
+
+selectAllActivities:
+SELECT * FROM Activity;
+
+selectActivityById:
+SELECT * FROM Activity WHERE ActivityID = ?;
+
+updateActivity:
+UPDATE Activity
+SET ActivityName = ?, Description = ?
+WHERE ActivityID = ?;
+
+deleteActivity:
+DELETE FROM Activity WHERE ActivityID = ?;

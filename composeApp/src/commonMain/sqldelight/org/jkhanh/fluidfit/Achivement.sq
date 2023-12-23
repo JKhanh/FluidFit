@@ -1,0 +1,24 @@
+CREATE TABLE Achievement (
+    AchievementID INTEGER NOT NULL PRIMARY KEY,
+    Name TEXT NOT NULL,
+    Description TEXT,
+    ScoreThreshold INTEGER NOT NULL
+);
+
+insertAchievement:
+INSERT INTO Achievement (Name, Description, ScoreThreshold)
+VALUES (?, ?, ?);
+
+selectAllAchievements:
+SELECT * FROM Achievement;
+
+selectAchievementById:
+SELECT * FROM Achievement WHERE AchievementID = ?;
+
+updateAchievement:
+UPDATE Achievement
+SET Name = ?, Description = ?, ScoreThreshold = ?
+WHERE AchievementID = ?;
+
+deleteAchievement:
+DELETE FROM Achievement WHERE AchievementID = ?;

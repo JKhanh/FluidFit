@@ -13,9 +13,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -43,56 +45,64 @@ class MainScreen : Screen {
         val uiState = viewModel.uiState.collectAsState().value
         val refreshing = uiState.isLoading
         val pullRefreshState =
-            rememberPullRefreshState(refreshing, {  })
-        Box(
-            modifier = Modifier
-                .pullRefresh(pullRefreshState)
-                .padding(horizontal = 16.dp, vertical = 16.dp)
-        ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceBetween,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text("Hello")
-                Spacer(Modifier.height(16.dp))
-                LazyColumn(modifier = Modifier.weight(1f)) {
-                    items(uiState.activities, key = { activity -> activity.ActivityID}) {
-                        ActivityItem(it)
-                    }
-                }
+            rememberPullRefreshState(refreshing, { })
+
+        Scaffold(
+            floatingActionButton = {
                 FloatingActionButton(
                     onClick = { navigator?.push(AddActivityScreen) },
-                    modifier = Modifier.weight(1f, false).align(Alignment.End)
+                    modifier = Modifier
                 ) {
                     Icon(Icons.Default.Add, contentDescription = null)
                 }
+            },
+            floatingActionButtonPosition = FabPosition.End
+        ) {
+            Box(
+                modifier = Modifier
+                    .pullRefresh(pullRefreshState)
+                    .padding(horizontal = 16.dp, vertical = 16.dp)
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.SpaceBetween,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text("Hello")
+                    Spacer(Modifier.height(16.dp))
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        items(uiState.activities, key = { activity -> activity.ActivityID }) {
+                            ActivityItem(it)
+                        }
+                    }
+
+                }
+                PullRefreshIndicator(
+                    refreshing,
+                    pullRefreshState,
+                    modifier = Modifier.align(Alignment.TopCenter)
+                )
             }
-            PullRefreshIndicator(
-                refreshing,
-                pullRefreshState,
-                modifier = Modifier.align(Alignment.TopCenter)
-            )
         }
     }
 
-    @Composable
-    fun ActivityItem(activity: Activity) {
-        Card(modifier = Modifier.fillMaxWidth(), elevation = 16.dp) {
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column {
-                    Text(activity.ActivityName)
-                    if (activity.Description != null) {
-                        Text(activity.Description)
+        @Composable
+        fun ActivityItem(activity: Activity) {
+            Card(modifier = Modifier.fillMaxWidth(), elevation = 16.dp) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column {
+                        Text(activity.ActivityName)
+                        if (activity.Description != null) {
+                            Text(activity.Description)
+                        }
                     }
-                }
-                IconButton(onClick = {}) {
-                    Icon(Icons.Default.ArrowRight, contentDescription = null)
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Default.ArrowRight, contentDescription = null)
+                    }
                 }
             }
         }
     }
-}

@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     id("com.google.gms.google-services")
     id("app.cash.sqldelight") version "2.0.1"
+    kotlin("plugin.serialization") version "1.8.21"
 }
 
 kotlin {
@@ -51,9 +52,11 @@ kotlin {
             implementation(libs.voyager.koin)
 
             implementation(libs.firebase.auth)
+            implementation(libs.firebase.firestore)
             implementation("co.touchlab:stately-common:2.0.6")
             implementation("com.google.android.gms:play-services-auth:20.7.0")
             implementation(libs.sqldelight.coroutines)
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
         }
         sourceSets.iosMain.dependencies {
             implementation(libs.sqldelight.native)
