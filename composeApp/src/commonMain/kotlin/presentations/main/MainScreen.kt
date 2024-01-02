@@ -3,32 +3,35 @@ package presentations.main
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FabPosition
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowRight
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
@@ -37,15 +40,14 @@ import org.jkhanh.fluidfit.Activity
 import presentations.activity.AddActivityScreen
 
 class MainScreen : Screen {
-    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.current
         val viewModel = getScreenModel<MainViewModel>()
         val uiState = viewModel.uiState.collectAsState().value
         val refreshing = uiState.isLoading
-        val pullRefreshState =
-            rememberPullRefreshState(refreshing, { })
+//        val pullRefreshState =
+//            rememberPullRefreshState(refreshing, { })
 
         Scaffold(
             floatingActionButton = {
@@ -60,7 +62,7 @@ class MainScreen : Screen {
         ) {
             Box(
                 modifier = Modifier
-                    .pullRefresh(pullRefreshState)
+//                    .pullRefresh(pullRefreshState)
                     .padding(horizontal = 16.dp, vertical = 16.dp)
             ) {
                 Column(
@@ -70,37 +72,47 @@ class MainScreen : Screen {
                 ) {
                     Text("Hello")
                     Spacer(Modifier.height(16.dp))
-                    LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(uiState.activities, key = { activity -> activity.ActivityID }) {
-                            ActivityItem(it)
+                    if (uiState.isLoading) {
+                        CircularProgressIndicator()
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(uiState.activities, key = { activity -> activity.ActivityID }) {
+                                ActivityItem(it)
+                            }
                         }
                     }
 
                 }
-                PullRefreshIndicator(
-                    refreshing,
-                    pullRefreshState,
-                    modifier = Modifier.align(Alignment.TopCenter)
-                )
+//                PullRefreshIndicator(
+//                    refreshing,
+//                    pullRefreshState,
+//                    modifier = Modifier.align(Alignment.TopCenter)
+//                )
             }
         }
     }
 
         @Composable
         fun ActivityItem(activity: Activity) {
-            Card(modifier = Modifier.fillMaxWidth(), elevation = 16.dp) {
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
+            Card(modifier = Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(16.dp)) {
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(8.dp)
                 ) {
-                    Column {
-                        Text(activity.ActivityName)
-                        if (activity.Description != null) {
-                            Text(activity.Description)
+                    Text(activity.ActivityName)
+                    Button(onClick = {
+
+                    },colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent
+                    ), elevation = ButtonDefaults.buttonElevation(0.dp),
+                        contentPadding = PaddingValues(4.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("Try out!", color = MaterialTheme.colorScheme.primary)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Icon(Icons.Default.ArrowRight, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                         }
-                    }
-                    IconButton(onClick = {}) {
-                        Icon(Icons.Default.ArrowRight, contentDescription = null)
                     }
                 }
             }

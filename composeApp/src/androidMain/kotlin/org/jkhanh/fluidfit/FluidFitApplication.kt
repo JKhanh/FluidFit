@@ -2,6 +2,8 @@ package org.jkhanh.fluidfit
 
 import android.app.Application
 import android.content.Context
+import com.mmk.kmpnotifier.notification.NotifierManager
+import com.mmk.kmpnotifier.notification.configuration.NotificationPlatformConfiguration
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.initialize
 import initKoinAndroid
@@ -22,5 +24,8 @@ class FluidFitApplication: Application() {
             )
         )
         Firebase.initialize(this)
+        NotifierManager.initialize(NotificationPlatformConfiguration.Android(
+            notificationIconResId = R.drawable.ic_launcher_foreground
+        ))
     }
 }

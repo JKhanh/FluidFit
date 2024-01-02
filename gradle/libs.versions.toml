@@ -13,8 +13,10 @@ androidx-material = "1.10.0"
 androidx-constraintlayout = "2.1.4"
 androidx-test-junit = "1.1.5"
 androidx-espresso-core = "3.5.1"
+kmpnotifier = "0.2.0"
 kotlin = "1.9.20"
 junit = "4.13.2"
+kotlinxSerializationJson = "1.6.0"
 libres = "1.2.0"
 napier = "2.6.1"
 moko-permission = "0.16.0"
@@ -22,8 +24,11 @@ koin = "3.5.2-RC1"
 voyager = "1.0.0-rc10"
 firebase = "1.10.4"
 sqldelight = "2.0.1"
+work-manager = "2.9.0"
+moko-resource = "0.23.0"
 
 [libraries]
+kmpnotifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmpnotifier" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -39,6 +44,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 libres = { group = "io.github.skeptick.libres", name = "gradle-plugin", version.ref = "libres"}
 napier = { group = "io.github.aakira", name = "napier", version.ref = "napier"}
 moko-permission = { group = "dev.icerock.moko", name = "permissions", version.ref = "moko-permission"}
@@ -59,6 +65,11 @@ firebase_firestore = { module = "dev.gitlive:firebase-firestore", version.ref = 
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight"}
+
+moko-resource = { module = "dev.icerock.moko:resources", version.ref = "moko-resource"}
+moko-resource-compose = { module = "dev.icerock.moko:resources-compose", version.ref = "moko-resource"}
+
+work-manager = { module = "androidx.work:work-runtime-ktx", version.ref = "work-manager"}
 
 [plugins]
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }

@@ -1,3 +1,4 @@
+import dev.icerock.gradle.MRVisibility
 import org.jetbrains.compose.ExperimentalComposeLibrary
 
 plugins {
@@ -7,6 +8,7 @@ plugins {
     id("com.google.gms.google-services")
     id("app.cash.sqldelight") version "2.0.1"
     kotlin("plugin.serialization") version "1.8.21"
+    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 kotlin {
@@ -24,12 +26,18 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
+            export("io.github.mirzemehdi:kmpnotifier:0.2.0")
             baseName = "ComposeApp"
             isStatic = true
         }
     }
     
     sourceSets {
+
+        getByName("androidMain").dependsOn(commonMain.get())
+        getByName("iosArm64Main").dependsOn(commonMain.get())
+        getByName("iosX64Main").dependsOn(commonMain.get())
+        getByName("iosSimulatorArm64Main").dependsOn(commonMain.get())
         
         androidMain.dependencies {
             implementation(libs.compose.ui)
@@ -40,7 +48,7 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
             implementation(compose.materialIconsExtended)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
@@ -56,12 +64,22 @@ kotlin {
             implementation("co.touchlab:stately-common:2.0.6")
             implementation("com.google.android.gms:play-services-auth:20.7.0")
             implementation(libs.sqldelight.coroutines)
-            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+            implementation(libs.kotlinx.serialization.json)
+
+            implementation(libs.moko.resource)
+            implementation(libs.moko.resource.compose)
+            api(libs.kmpnotifier)
         }
         sourceSets.iosMain.dependencies {
             implementation(libs.sqldelight.native)
         }
     }
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "org.jkhanh.fluidfit" // required
+    multiplatformResourcesClassName = "SharedRes" // optional, default MR
+    multiplatformResourcesVisibility = MRVisibility.Internal // optional, default Public
 }
 
 android {
@@ -101,6 +119,7 @@ android {
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
+        implementation(libs.work.manager)
     }
 }
 

@@ -5,7 +5,6 @@ import app.cash.sqldelight.coroutines.mapToList
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.firestore.firestore
 import dev.gitlive.firebase.firestore.orderBy
-import io.github.aakira.napier.Napier
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
@@ -60,8 +59,6 @@ class ActivityRepositoryImpl(
             .documents.map { it.data<ActivityModel>().apply {
                 this.id = it.id
             } }
-
-        Napier.d(activityList.toString())
 
         for (activity in activityList) {
             insertActivity(activity.toActivityDto())

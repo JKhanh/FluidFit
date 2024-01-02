@@ -17,6 +17,9 @@ class MainViewModel(
 
     init {
         screenModelScope.launch {
+            _uiState.value = _uiState.value.copy(
+                isLoading = true
+            )
             repository.getActivityList().collect { newActivities ->
                 Napier.d(newActivities.toString())
                 _uiState.value = _uiState.value.copy(

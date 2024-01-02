@@ -1,5 +1,5 @@
 CREATE TABLE Reminders (
-    ReminderID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    ReminderID TEXT NOT NULL PRIMARY KEY AUTOINCREMENT,
     ActivityID TEXT NOT NULL,
     ReminderTime INTEGER NOT NULL, -- Storing as UNIX timestamp
     RepeatInterval INTEGER, -- In minutes, NULL if no repeat
@@ -10,8 +10,8 @@ CREATE TABLE Reminders (
 );
 
 insertReminder:
-INSERT INTO Reminders (ActivityID, ReminderTime, RepeatInterval, WorkingHoursStart, WorkingHoursEnd, WorkingDays)
-VALUES (?, ?, ?, ?, ?, ?);
+INSERT INTO Reminders (ReminderID, ActivityID, ReminderTime, RepeatInterval, WorkingHoursStart, WorkingHoursEnd, WorkingDays)
+VALUES (?, ?, ?, ?, ?, ?, ?);
 
 selectAllReminders:
 SELECT * FROM Reminders;

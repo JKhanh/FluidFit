@@ -8,17 +8,17 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -112,13 +112,15 @@ object AddActivityScreen: Screen {
                 ) {
                     activities.forEachIndexed { index, activity ->
                         DropdownMenuItem(
+                            text =  {
+                                Text(activity)
+
+                            },
                             onClick = {
                                 selectedIndex = index
                                 expanded = false
                             }
-                        ) {
-                            Text(activity)
-                        }
+                        )
                     }
                 }
 
@@ -158,7 +160,7 @@ object AddActivityScreen: Screen {
                     Button(onClick = { /* Handle cancel */ }) {
                         Text("Cancel")
                     }
-                    Button(onClick = { /* Handle add */ }, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray)) {
+                    Button(onClick = { /* Handle add */ }, colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)) {
                         Text("Add")
                     }
                 }
@@ -193,11 +195,11 @@ object AddActivityScreen: Screen {
 
     @Composable
     fun ToggleButton(selected: Boolean, onSelectedChange: (Boolean) -> Unit, text: String) {
-        val backgroundColor = if (selected) MaterialTheme.colors.primary else Color.Gray
+        val backgroundColor = if (selected) MaterialTheme.colorScheme.primary else Color.Gray
         OutlinedButton(
             onClick = { onSelectedChange(!selected) },
             border = BorderStroke(1.dp, Color.Gray),
-            colors = ButtonDefaults.outlinedButtonColors(backgroundColor = backgroundColor)
+            colors = ButtonDefaults.outlinedButtonColors(containerColor = backgroundColor)
         ) {
             Text(text, color = Color.White)
         }

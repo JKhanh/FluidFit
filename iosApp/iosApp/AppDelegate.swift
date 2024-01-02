@@ -7,6 +7,8 @@
 //
 import UIKit
 import FirebaseCore
+import FirebaseMessaging
+import ComposeApp
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
@@ -14,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     {
         // [START firebase_configure]
         FirebaseApp.configure()
+        NotifierManager.shared.initialize(configuration: NotificationPlatformConfigurationIos.shared)
         return true
     }
 }
