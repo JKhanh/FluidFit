@@ -7,6 +7,7 @@ struct iOSApp: App {
 
     init() {
         HelperKt.doInitKoiniOS()
+        NotifierManager.shared.initialize(configuration: NotificationPlatformConfigurationIos.shared)
     }
 
 	var body: some Scene {

@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import usecases.LoginEmailPasswordUsecase
+import usecases.SignUpEmailPasswordUsecase
 
 data class LoginUiState(
     var isLoading: Boolean = false,
@@ -16,7 +18,10 @@ data class LoginUiState(
     var isLoggedIn: Boolean = false
 )
 
-class LoginViewModel: ScreenModel {
+class LoginViewModel(
+    private val loginEmailPasswordUsecase: LoginEmailPasswordUsecase,
+    private val signUpEmailPasswordUsecase: SignUpEmailPasswordUsecase
+): ScreenModel {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
@@ -34,7 +39,7 @@ class LoginViewModel: ScreenModel {
         screenModelScope.launch {
             setUiStateToLoggingIn()
             try {
-                val response = firebaseAuth.signInWithEmailAndPassword(email, password)
+                val response = loginEmailPasswordUsecase(email, password)
                 if (response.user != null) {
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
@@ -60,7 +65,7 @@ class LoginViewModel: ScreenModel {
         screenModelScope.launch {
             setUiStateToLoggingIn()
             try {
-                val response = firebaseAuth.createUserWithEmailAndPassword(email, password)
+                val response = signUpEmailPasswordUsecase(email, password)
                 if (response.user != null) {
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,

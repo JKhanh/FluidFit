@@ -8,9 +8,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.jkhanh.fluidfit.Activity
+import usecases.GetActivityListUsecase
 
 class MainViewModel(
-    private val repository: ActivityRepository
+    private val getActivityListUsecase: GetActivityListUsecase
 ): ScreenModel {
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
@@ -20,7 +21,7 @@ class MainViewModel(
             _uiState.value = _uiState.value.copy(
                 isLoading = true
             )
-            repository.getActivityList().collect { newActivities ->
+            getActivityListUsecase().collect { newActivities ->
                 Napier.d(newActivities.toString())
                 _uiState.value = _uiState.value.copy(
                         isLoading = false,

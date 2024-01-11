@@ -21,6 +21,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -36,8 +37,10 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 import org.jkhanh.fluidfit.Activity
 import presentations.activity.AddActivityScreen
+import presentations.reminder.AddReminderScreen
 
 class MainScreen : Screen {
     @Composable
@@ -45,9 +48,6 @@ class MainScreen : Screen {
         val navigator = LocalNavigator.current
         val viewModel = getScreenModel<MainViewModel>()
         val uiState = viewModel.uiState.collectAsState().value
-        val refreshing = uiState.isLoading
-//        val pullRefreshState =
-//            rememberPullRefreshState(refreshing, { })
 
         Scaffold(
             floatingActionButton = {
@@ -62,7 +62,6 @@ class MainScreen : Screen {
         ) {
             Box(
                 modifier = Modifier
-//                    .pullRefresh(pullRefreshState)
                     .padding(horizontal = 16.dp, vertical = 16.dp)
             ) {
                 Column(
@@ -80,24 +79,22 @@ class MainScreen : Screen {
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             items(uiState.activities, key = { activity -> activity.ActivityID }) {
-                                ActivityItem(it)
+                                ActivityItem(it, navigator)
                             }
                         }
                     }
 
                 }
-//                PullRefreshIndicator(
-//                    refreshing,
-//                    pullRefreshState,
-//                    modifier = Modifier.align(Alignment.TopCenter)
-//                )
             }
         }
     }
 
+        @OptIn(ExperimentalMaterial3Api::class)
         @Composable
-        fun ActivityItem(activity: Activity) {
-            Card(modifier = Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(16.dp)) {
+        fun ActivityItem(activity: Activity, navigator: Navigator?) {
+            Card(modifier = Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(16.dp), onClick = {
+                navigator?.push(AddReminderScreen(activity))
+            }) {
                 Column(
                     modifier = Modifier.fillMaxWidth().padding(8.dp)
                 ) {
